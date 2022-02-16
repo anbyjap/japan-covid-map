@@ -1,0 +1,62 @@
+{
+  "name": "three-app",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@chakra-ui/core": "^0.8.0",
+    "@emotion/core": "^11.0.0",
+    "@emotion/react": "^11.7.1",
+    "@emotion/styled": "^11.6.0",
+    "@react-three/fiber": "^7.0.26",
+    "@testing-library/jest-dom": "^5.16.2",
+    "@testing-library/react": "^12.1.2",
+    "@testing-library/user-event": "^13.5.0",
+    "any-form-react-plugin": "^1.0.14",
+    "axios": "^0.26.0",
+    "cors": "^2.8.5",
+    "d3": "5.15.0",
+    "d3-scale-chromatic": "^3.0.0",
+    "emotion-theming": "^11.0.0",
+    "express": "^4.17.2",
+    "npm": "^8.4.1",
+    "react": "^17.0.2",
+    "react-bootstrap": "^2.1.2",
+    "react-date-picker": "^8.4.0",
+    "react-dom": "^17.0.2",
+    "react-scripts": "5.0.0",
+    "react-select-datepicker": "^1.1.2",
+    "three": "^0.137.5",
+    "web-vitals": "^2.1.4",
+    "yarn": "^1.22.17"
+  },
+  "scripts": {
+    "api": "json-server db.json -p 3333 --delay 1500",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@types/d3": "^7.1.0",
+    "d3-3d": "^0.1.2",
+    "json-server": "^0.17.0"
+  }
+}
