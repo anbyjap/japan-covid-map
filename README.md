@@ -1,10 +1,10 @@
 # japan-covid-map
 
 ## This is the application for daily COVID-19 cases in Japan.
-## This app made 
-- ### React.js (Javascript)
-- ### d3.js (Javascript)
-- ### FastAPI (Python) as backend
+## This app uses 
+- #### React.js (Javascript)
+- #### d3.js (Javascript)
+- #### FastAPI (Python) as backend
 
 # Backend
 ## 1. Install Anaconda
