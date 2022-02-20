@@ -48,8 +48,8 @@ def add_todo(date : str) -> dict:
     url = url + date
     response = requests.request("GET", url, headers=headers, data=payload)
     info = response.json()
-    print(info)
-    with open("../frontend/src/data/covids.json", "w",encoding='utf-8') as outfile:
-        json.dump(info, outfile, ensure_ascii=False)
+    #print(info)
+    #with open("../frontend/src/data/covids.json", "w",encoding='utf-8') as outfile:
+    #    json.dump(info, outfile, ensure_ascii=False)
     return info
 

@@ -1,8 +1,8 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import PlotJapan from './PlotJapan';
-import DatePick from './datePicker';
-import { DateContext } from './contexts/context';
-
+import { DateContext, CovidContext } from './contexts/context';
+import DatePicker from 'react-date-picker';
+import axios from 'axios';
 
 const App = () => {
   const [dateValue, setDateValue] = useState(new Date());
@@ -12,16 +12,33 @@ const App = () => {
       () => ({dateValue, setDateValue}),
       [dateValue]
   );
+
+  const value2 = useMemo(
+    () => ({covidNum, setCovidNum}),
+    [covidNum]
+);
+
+  const selectedDate = dateValue.toLocaleDateString('en-GB').split('/').reverse().join('');
+  //console.log(selectedDate);
+  useEffect(async () => {
+    const res = await axios.get("http://localhost:8000/covid?date=" + selectedDate);
+    setCovidNum(res.data.itemList);
+  }, [dateValue]);
+
+  //await DatePick();
   return (
     <>
-      <DateContext.Provider value={value}>
-        <DatePick style={{width:"100%"}}/>
+      <div>
+        <DatePicker calenderClassName={"react-calendar"} onChange={setDateValue}  value={dateValue} />
+        </div>
         <div className="App">
           <header className="App-header">
-            <PlotJapan />
+        <CovidContext.Provider value={value2}>
+              <PlotJapan />
+            </CovidContext.Provider>
           </header>
         </div>
-      </DateContext.Provider>
+        
     </>
 
       
