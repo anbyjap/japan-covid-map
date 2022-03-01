@@ -28,7 +28,7 @@ const PlotJapan = () => {
 
     // 地図をpathに投影(変換)
     const path = d3.geoPath().projection(projection);
-    console.log(geoJson.features);
+    //console.log(geoJson.features);
     //geoJson.features[0].push(covidNum);
     ///////////////////Set new propaties for each feature/////////////////////
     if(covidNum.length>0 ){
@@ -68,8 +68,8 @@ const PlotJapan = () => {
     .attr(`fill-opacity`, (item) => {
       // メモ
       // item.properties.name_ja に都道府県名が入っている
-      if((parseInt(item.properties.provnum_ne))%2===0) return 0;
-      else return 1;
+      if((parseInt(item.properties.npatients))>1000) return 1;
+      else return 0.5;
       // 透明度をランダムに指定する (0.0 - 1.0)
       //return Math.random();
     })

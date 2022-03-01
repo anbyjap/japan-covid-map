@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import requests
 import json
+from urllib.request import urlopen
 
 payload={}
 headers = {}
@@ -43,13 +44,18 @@ async def get_todos() -> dict:
 
 
 @app.get("/covid", tags=["todos"])
-def add_todo(date : str) -> dict:
+def add_todo(date : str, pastDate : str) -> dict:
     url = "https://opendata.corona.go.jp/api/Covid19JapanAll?date="
     url = url + date
-    response = requests.request("GET", url, headers=headers, data=payload)
-    info = response.json()
-    #print(info)
-    #with open("../frontend/src/data/covids.json", "w",encoding='utf-8') as outfile:
-    #    json.dump(info, outfile, ensure_ascii=False)
-    return info
-
+    response1 = urlopen(url)
+    url = "https://opendata.corona.go.jp/api/Covid19JapanAll?date="
+    url = url + pastDate
+    print(pastDate)
+    response2 = urlopen(url)
+    tDate = json.loads(response1.read())
+    yDate = json.loads(response2.read())
+    print(yDate, yDate)
+    for t,y in zip(tDate['itemList'], yDate['itemList']):
+        n = int(t['npatients']) - int(y['npatients'])
+        t['npatients'] = str(n)
+    return tDate

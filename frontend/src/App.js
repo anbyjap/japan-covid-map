@@ -19,10 +19,16 @@ const App = () => {
 );
 
   const selectedDate = dateValue.toLocaleDateString('en-GB').split('/').reverse().join('');
-  //console.log(selectedDate);
-  useEffect(async () => {
-    const res = await axios.get("http://localhost:8000/covid?date=" + selectedDate);
-    setCovidNum(res.data.itemList);
+  console.log(selectedDate);
+  dateValue.setDate(dateValue.getDate() - 1);
+  const pastDate = dateValue.toLocaleDateString('en-GB').split('/').reverse().join('');
+  console.log(pastDate);
+  useEffect(() => {
+    const getDateAPI = async () => {
+      const res = await axios.get("http://localhost:8000/covid?date=" + selectedDate + "&pastDate=" + pastDate);
+      setCovidNum(res.data.itemList);
+    }
+    getDateAPI();
   }, [dateValue]);
 
   //await DatePick();
@@ -33,7 +39,7 @@ const App = () => {
         </div>
         <div className="App">
           <header className="App-header">
-        <CovidContext.Provider value={value2}>
+            <CovidContext.Provider value={value2}>
               <PlotJapan />
             </CovidContext.Provider>
           </header>
