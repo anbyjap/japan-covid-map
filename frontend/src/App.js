@@ -1,35 +1,51 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import PlotJapan from './PlotJapan';
-import { DateContext, CovidContext } from './contexts/context';
 import DatePicker from 'react-date-picker';
 import axios from 'axios';
 
 const App = () => {
   const [dateValue, setDateValue] = useState(new Date());
   const [covidNum, setCovidNum] = useState([]);
+  const [result, setResult] = useState([]);
+
+  useEffect(() => {
+    const getDiff = () => {
+      const selectedDate = dateValue.toLocaleDateString('en-GB').split('/').reverse().join('-');
+      console.log(covidNum);
+      covidNum.map((covidData, index) => {
+        console.log(covidData[0]);
+        if(covidData[0].date===selectedDate ) {
+          console.log(covidData);
+          const today = covidData;
+          const yesterday = covidNum[index+1];
+          console.log(today, yesterday);
+          today.map((e, j) => {
+            e.npatients = String(parseInt(e.npatients) - parseInt(yesterday[j].npatients));
+          });
+          console.log(today);
+          setResult(today);
+        }
+      });
+      console.log(result);
+    };
+    if (covidNum.length > 0) getDiff();
+    }, [dateValue]);
+
   
-  const value = useMemo(
-      () => ({dateValue, setDateValue}),
-      [dateValue]
-  );
-
-  const value2 = useMemo(
-    () => ({covidNum, setCovidNum}),
-    [covidNum]
-);
-
-  const selectedDate = dateValue.toLocaleDateString('en-GB').split('/').reverse().join('');
-  console.log(selectedDate);
-  dateValue.setDate(dateValue.getDate() - 1);
-  const pastDate = dateValue.toLocaleDateString('en-GB').split('/').reverse().join('');
-  console.log(pastDate);
   useEffect(() => {
     const getDateAPI = async () => {
-      const res = await axios.get("http://localhost:8000/covid?date=" + selectedDate + "&pastDate=" + pastDate);
-      setCovidNum(res.data.itemList);
+      const res = await axios.get("http://localhost:8000/covid");
+
+      const chunkSize = 47;
+      const arr = res.data.itemList;
+      const groups = arr.map((e, i) => { 
+          return i % chunkSize === 0 ? arr.slice(i, i + chunkSize) : null; 
+      }).filter(e => { return e; });
+      console.log(groups);
+      setCovidNum(groups);
     }
-    getDateAPI();
-  }, [dateValue]);
+    if(covidNum.length === 0) getDateAPI();
+  }, []);
 
   //await DatePick();
   return (
@@ -39,9 +55,7 @@ const App = () => {
         </div>
         <div className="App">
           <header className="App-header">
-            <CovidContext.Provider value={value2}>
-              <PlotJapan />
-            </CovidContext.Provider>
+            <PlotJapan covidNum={result}/>
           </header>
         </div>
         

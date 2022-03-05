@@ -44,18 +44,12 @@ async def get_todos() -> dict:
 
 
 @app.get("/covid", tags=["todos"])
-def add_todo(date : str, pastDate : str) -> dict:
-    url = "https://opendata.corona.go.jp/api/Covid19JapanAll?date="
-    url = url + date
-    response1 = urlopen(url)
-    url = "https://opendata.corona.go.jp/api/Covid19JapanAll?date="
-    url = url + pastDate
-    print(pastDate)
-    response2 = urlopen(url)
-    tDate = json.loads(response1.read())
-    yDate = json.loads(response2.read())
-    print(yDate, yDate)
-    for t,y in zip(tDate['itemList'], yDate['itemList']):
+def add_todo() -> dict:
+    url = "https://opendata.corona.go.jp/api/Covid19JapanAll"
+    response = requests.get(url)
+    dateJson = response.json()
+    #print(yDate, yDate)
+    """ for t,y in zip(tDate['itemList'], yDate['itemList']):
         n = int(t['npatients']) - int(y['npatients'])
-        t['npatients'] = str(n)
-    return tDate
+        t['npatients'] = str(n) """
+    return dateJson
