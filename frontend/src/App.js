@@ -2,11 +2,14 @@ import React, { useEffect, useMemo, useState } from 'react';
 import PlotJapan from './PlotJapan';
 import DatePicker from 'react-date-picker';
 import axios from 'axios';
+import {BallTriangle} from 'react-loader-spinner'
+import { forceCenter } from 'd3';
 
 const App = () => {
   const [dateValue, setDateValue] = useState(new Date());
   const [covidNum, setCovidNum] = useState([]);
   const [result, setResult] = useState([]);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     const getDiff = () => {
@@ -35,7 +38,7 @@ const App = () => {
   useEffect(() => {
     const getDateAPI = async () => {
       const res = await axios.get("http://localhost:8000/covid");
-
+      setLoaded(true);
       const chunkSize = 47;
       const arr = res.data.itemList;
       const groups = arr.map((e, i) => { 
@@ -49,15 +52,34 @@ const App = () => {
 
   //await DatePick();
   return (
-    <>
-      <div>
-        <DatePicker calenderClassName={"react-calendar"} onChange={setDateValue}  value={dateValue} />
-        </div>
-        <div className="App">
-          <header className="App-header">
-            <PlotJapan covidNum={result}/>
-          </header>
-        </div>
+    < >
+        {loaded ? (
+          <div>
+            <DatePicker calenderClassName={"react-calendar"} onChange={setDateValue}  value={dateValue} />
+            <div className="App">
+              <header className="App-header">
+                <PlotJapan covidNum={result}/>
+              </header>
+            </div>
+          </div>
+        ) : (
+          <div
+          style={{display: "flex", justifyContent: "center", alignItems: "center",}}
+          
+          >
+            
+            <BallTriangle
+            color="#00BFFF"
+            height={100}
+            width={100}
+            timeout={3000} //3 secs
+        />
+            
+            </div>
+          
+        )
+        }
+      
         
     </>
 
