@@ -60,5 +60,6 @@
     "@types/d3": "^7.1.0",
     "d3-3d": "^0.1.2",
     "json-server": "^0.17.0"
-  }
+  },
+  "proxy": "https://my-heroku-app.herokuapp.com/"
 }
