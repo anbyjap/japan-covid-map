@@ -74,7 +74,7 @@ const App = () => {
             width={100}
             timeout={3000} //3 secs
         />
-            
+            <h1>Loading...</h1>
             </div>
           
         )
