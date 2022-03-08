@@ -20,7 +20,8 @@ app = FastAPI()
 
 origins = [
     "http://localhost:3000",
-    "localhost:3000"
+    "localhost:3000",
+    "https://my-firebase-app-76091.web.app/"
 ]
 
 
